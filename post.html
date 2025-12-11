@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Game</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html">Ryan Griffin Searle</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">Resume</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Web-App</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('https://www.wardtechtalent.com/wp-content/uploads/2014/02/title.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>Play Finance Flappy-Bird</h1>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flappy Dollar - Trading Edition</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        font-family: 'Courier New', monospace;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #0f0;
+    }
+    canvas {
+        background: #0d1117;
+        box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+        image-rendering: pixelated; /* crisp retro trading look */
+    }
+    #game-container {
+        position: relative;
+    }
+    #score {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 48px;
+        font-weight: bold;
+        color: #00ff00;
+        text-shadow: 0 0 10px #0f0;
+        z-index: 10;
+        letter-spacing: 3px;
+    }
+    #restart-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 16px 40px;
+        font-size: 28px;
+        background: #ff0033;
+        color: white;
+        border: 3px solid #ff3366;
+        border-radius: 12px;
+        cursor: pointer;
+        display: none;
+        z-index: 20;
+        font-weight: bold;
+        box-shadow: 0 0 20px rgba(255,0,51,0.6);
+    }
+    #restart-btn:hover {
+        background: #ff1a4d;
+        box-shadow: 0 0 30px rgba(255,0,51,0.9);
+    }
+    #title {
+        position: absolute;
+        top: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 42px;
+        color: #00ff41;
+        text-shadow: 0 0 15px #0f0;
+        z-index: 10;
+        letter-spacing: 8px;
+    }
+</style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="title">FLAPPY DOLLAR</div>
+    <div id="score">0</div>
+    <canvas id="canvas" width="900" height="600"></canvas>
+    <button id="restart-btn">RESTART GAME</button>
+</div>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const scoreElement = document.getElementById("score");
+const restartBtn = document.getElementById("restart-btn");
+
+let score = 0;
+let gameRunning = true;
+
+// Dollar Sign Player
+const dollar = {
+    x: 120,
+    y: canvas.height / 2,
+    width: 50,
+    height: 50,
+    velocity: 0,
+    gravity: 0.55,
+    jumpPower: -13,
+    draw() {
+        ctx.save();
+        ctx.translate(this.x + this.width/2, this.y + this.height/2);
+        ctx.rotate(this.velocity * 0.05); // tilt when falling/rising
+        ctx.font = "bold 64px Arial";
+        ctx.fillStyle = "#00ff00";
+        ctx.strokeStyle = "#00ff00";
+        ctx.lineWidth = 5;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = "#00ff00";
+        ctx.fillText("$", -23, 18);
+        ctx.strokeText("$", -23, 18);
+        ctx.restore();
+    },
+    update() {
+        this.velocity += this.gravity;
+        this.y += this.velocity;
+
+        if (this.y + this.height > canvas.height || this.y < 0) {
+            gameOver();
+        }
+    }
+};
+
+// Thinner Candlesticks (now 50px wide instead of 80)
+const candleWidth = 50;
+const candleGap = 220;
+let candles = [];
+
+function createCandle() {
+    const minHeight = 80;
+    const maxHeight = canvas.height - candleGap - 120;
+    const topHeight = Math.floor(Math.random() * (maxHeight - minHeight)) + minHeight;
+
+    candles.push({
+        x: canvas.width + 50,
+        top: topHeight,
+        bottomY: topHeight + candleGap,
+        bottomH: canvas.height - (topHeight + candleGap),
+        passed: false
+    });
+}
+
+function drawCandle(c) {
+    // Top (Red Bearish)
+    ctx.fillStyle = "#e74c3c";
+    ctx.fillRect(c.x + 10, 0, candleWidth - 20, c.top);
+    ctx.fillStyle = "#c0392b";
+    ctx.fillRect(c.x + 22, 0, 6, c.top + 30); // wick
+
+    // (Green Bullish)
+    ctx.fillStyle = "#2ecc71";
+    ctx.fillRect(c.x + 10, c.bottomY, candleWidth - 20, c.bottomH);
+    ctx.fillStyle = "#27ae60";
+    ctx.fillRect(c.x + 22, c.bottomY - 30, 6, c.bottomH + 60); // wick
+}
+
+function drawTradingBackground() {
+    ctx.strokeStyle = "#1e2a38";
+    ctx.lineWidth = 1;
+
+    // Grid lines
+    for (let x = 0; x < canvas.width; x += 60) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
+
+    // Horizontal price levels (like support/resistance)
+    const levels = [100, 200, 300, 400, 500];
+    ctx.strokeStyle = "#334455";
+    ctx.lineWidth = 2;
+    levels.forEach(level => {
+        const y = canvas.height - (level / 600 * canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    });
+
+    // Subtle background candlesticks (decorative)
+    ctx.fillStyle = "rgba(46, 204, 113, 0.1)";
+    for (let i = 0; i < 25; i++) {
+        let x = (i * 36 + Date.now() * 0.02) % (canvas.width + 100) - 50;
+        let h1 = 60 + Math.sin(i + Date.now() * 0.001) * 40;
+        let h2 = 60 + Math.cos(i * 1.3 + Date.now() * 0.001) * 40;
+        ctx.fillRect(x, canvas.height/2 - h1, 20, h1 * 2);
+        ctx.fillStyle = "rgba(231, 76, 60, 0.1)";
+        ctx.fillRect(x + 22, canvas.height/2 - h2, 20, h2 * 2);
+        ctx.fillStyle = "rgba(46, 204, 113, 0.1)";
+    }
+
+    // Volume bars at bottom
+    ctx.fillStyle = "rgba(100, 200, 255, 0.15)";
+    for (let i = 0; i < canvas.width; i += 15) {
+        let h = 20 + Math.abs(Math.sin(i * 0.05 + Date.now() * 0.001)) * 40;
+        ctx.fillRect(i, canvas.height - h, 10, h);
+    }
+}
+
+function updateCandles() {
+    for (let i = candles.length - 1; i >= 0; i--) {
+        let c = candles[i];
+        c.x -= 2.8;
+
+        // Score
+        if (!c.passed && c.x + candleWidth < dollar.x) {
+            c.passed = true;
+            score++;
+            scoreElement.textContent = score;
+        }
+
+        // Collision
+        if (
+            dollar.x + dollar.width > c.x + 5 &&
+            dollar.x < c.x + candleWidth - 5 &&
+            (dollar.y < c.top || dollar.y + dollar.height > c.bottomY)
+        ) {
+            gameOver();
+        }
+
+        if (c.x + candleWidth < 0) {
+            candles.splice(i, 1);
+        }
+    }
+}
+
+function gameLoop() {
+    if (!gameRunning) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawTradingBackground();
+    updateCandles();
+    candles.forEach(drawCandle);
+
+    dollar.update();
+    dollar.draw();
+
+    // Spawn new candles
+    if (candles.length === 0 || candles[candles.length - 1].x < canvas.width - 320) {
+        createCandle();
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+
+function jump() {
+    if (gameRunning) dollar.velocity = dollar.jumpPower;
+}
+
+function gameOver() {
+    gameRunning = false;
+    restartBtn.style.display = "block";
+}
+
+function restart() {
+    score = 0;
+    scoreElement.textContent = "0";
+    dollar.y = canvas.height / 2;
+    dollar.velocity = 0;
+    candles = [];
+    gameRunning = true;
+    restartBtn.style.display = "none";
+    gameLoop();
+}
+
+// Controls
+document.addEventListener("keydown", e => {
+    if (e.code === "Space") {
+        e.preventDefault();
+        jump();
+    }
+});
+canvas.addEventListener("click", jump);
+restartBtn.addEventListener("click", restart);
+
+// Start
+createCandle();
+gameLoop();
+</script>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
